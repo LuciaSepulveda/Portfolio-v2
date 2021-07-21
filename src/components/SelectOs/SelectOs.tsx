@@ -1,13 +1,11 @@
 import {MoonIcon, SunIcon} from "@chakra-ui/icons"
 import {
   Box,
-  Button,
   Flex,
   useColorMode,
   useColorModeValue,
   Image,
   Text,
-  HStack,
   Stack,
   VStack,
 } from "@chakra-ui/react"

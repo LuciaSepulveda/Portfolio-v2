@@ -102,11 +102,11 @@ const Clock: React.FC = () => {
       )}
       {os.name === "windows10" && (
         <VStack spacing="0px">
-          <Text fontSize="small">
+          <Text fontSize="smaller">
             {date.getHours() === 0 && `${date.toLocaleTimeString().substring(4, -1)}`}
             {date.getHours() !== 0 && `${date.toLocaleTimeString().substring(5, -1)}`}
           </Text>
-          <Text fontSize="small">
+          <Text fontSize="smaller">
             {date.getDate().toString()}/{date.getMonth().toString()}/{date.getFullYear().toString()}
           </Text>
         </VStack>

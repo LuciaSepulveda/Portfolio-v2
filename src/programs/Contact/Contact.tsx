@@ -70,7 +70,7 @@ const Contact: React.FC<Props> = ({w, h}) => {
             <Image h={["40px", "50px"]} src={elem.logo} />
             <VStack alignItems="start" w="100%">
               <Text fontWeight="bold">{elem.name}</Text>
-              {elem.name !== "Email" && (
+              {elem.name !== "Email" && elem.name !== "Icons" && (
                 <Text as="a" href={elem.link} target="_blank">
                   {elem.link}
                 </Text>
@@ -78,6 +78,22 @@ const Contact: React.FC<Props> = ({w, h}) => {
               {elem.name === "Email" && (
                 <Text as="a" href={elem.link} target="_blank">
                   {elem.link.substring(28, 7)}
+                </Text>
+              )}
+              {elem.name === "Icons" && (
+                <Text textAlign="justify" w="100%">
+                  Icons made by{" "}
+                  <Text as="a" href="https://www.flaticon.com/authors/mynamepong" target="_blank">
+                    mynamepong
+                  </Text>{" "}
+                  and{" "}
+                  <Text as="a" href="https://www.flaticon.com/authors/roundicons" target="_blank">
+                    roundicons
+                  </Text>{" "}
+                  from{" "}
+                  <Text as="a" href="https://www.flaticon.com/" target="_blank">
+                    www.flaticon.com
+                  </Text>
                 </Text>
               )}
             </VStack>

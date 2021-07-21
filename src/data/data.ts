@@ -8,6 +8,7 @@ import random from "../assets/randomQuote.png"
 import mail from "../assets/mailbox.png"
 import smart from "../assets/smartphone1.png"
 import github from "../assets/github.png"
+import creativity from "../assets/creativity.png"
 import {OS, Program, Project, Social} from "../types/types"
 import fondo1 from "../assets/fondo1.jpg"
 import fondo2 from "../assets/fondo2.jpg"
@@ -25,8 +26,11 @@ import fondo6 from "../assets/fondo6.jpg"
 import fondo7 from "../assets/fondo7.jpg"
 import fondo8 from "../assets/fondo8.png"
 import fondo9 from "../assets/Windows-XP.jpg"
+import fondo10 from "../assets/fondo8.jpg"
 
 export const programs: Program[] = [
+  {name: "Contact", img: `${smart}`, open: false, maximized: false, minimized: false},
+  {name: "Projects", img: `${project}`, open: false, maximized: false, minimized: false},
   {
     name: "User",
     img: `${dev}`,
@@ -34,8 +38,6 @@ export const programs: Program[] = [
     maximized: false,
     minimized: false,
   },
-  {name: "Projects", img: `${project}`, open: false, maximized: false, minimized: false},
-  {name: "Contact", img: `${smart}`, open: false, maximized: false, minimized: false},
   {name: "Wallpapers", img: `${display}`, open: false, maximized: false, minimized: false},
 ]
 
@@ -56,6 +58,7 @@ export const allOs: OS[] = [
       bgMinButton: "#F6AD3B",
       bgMaxButton: "#4DC849",
       colorIconTopWindow: "rgba(0,0,0,0.7)",
+      fontWeight: "bold",
     },
     bottomBar: {
       bgBar: {dark: "rgba(0,0,0,0.3)", light: "rgba(255,255,255,0.2)"},
@@ -91,6 +94,7 @@ export const allOs: OS[] = [
       bgMinButton: "#286CF5",
       bgMaxButton: "#286CF5",
       colorIconTopWindow: "white",
+      fontWeight: "bold",
     },
     bottomBar: {
       bgBar: {
@@ -118,11 +122,12 @@ export const allOs: OS[] = [
       },
       bgClock: {dark: "#0D9CF0", light: "#0D9CF0"},
       widthClock: "100px",
+      heightLogoStart: "22px",
     },
-    wallpapers: [fondo5, fondo9],
+    wallpapers: [fondo5, fondo9, fondo10],
     desktop: {
       height: "96%",
-      heightAboutMaximized: "96%",
+      heightAboutMaximized: "97%",
       heightProjectsMaximized: "90%",
       heightContactsMaximized: "97%",
       heightWallpapersMaximized: "90%",
@@ -135,7 +140,7 @@ export const allOs: OS[] = [
       borderWindow: {dark: "none", light: "none"},
       borderBottomWindow: "none",
       borderTopWindow: "none",
-      bgTopWindow: {dark: "#020204", light: "#FEFEFE"},
+      bgTopWindow: {dark: "rgba(0,0,0,0.8)", light: "rgba(255,255,255,0.8)"},
       bgBottomBar: {dark: "", light: ""},
       bgWindow: {dark: "#222224", light: "#FFFFFF"},
       borderButton: "none",
@@ -144,22 +149,26 @@ export const allOs: OS[] = [
       bgMinButton: "transparent",
       bgMaxButton: "transparent",
       colorIconTopWindow: "rgba(0,0,0,0.7)",
+      fontWeight: "normal",
     },
     bottomBar: {
       bgBar: {dark: "rgba(0,0,0,0.8)", light: "rgba(255,255,255,0.8)"},
-      height: "40px",
+      height: "44px",
       logoStart: {dark: `${logowindows10white}`, light: `${logowindows10black}`},
-      bgMenuOpen: {dark: "rgb(24, 24, 24)", light: ""},
-      backdropFilter: "blur(1px)",
+      bgMenuOpen: {dark: "rgba(0,0,0,0.975)", light: "rgba(250,250,250,0.975)"},
+      backdropFilter: "blur(5px)",
       bgStart: "transparent",
-      bgProgramOpen: "transparent",
+      bgProgramOpen: "none",
       widthProgramOpen: "50px",
       bgClock: {dark: "rgba(0,0,0,0.8)", light: "rgba(255,255,255,0.8)"},
-      widthClock: "130px",
+      widthClock: "150px",
+      heightLogoStart: "16px",
+      border: "0px",
+      borderRadiusMenuOpen: "0px",
     },
     wallpapers: [fondo6, fondo7, fondo8],
     desktop: {
-      height: "96%",
+      height: "95.4%",
       heightAboutMaximized: "97%",
       heightProjectsMaximized: "90%",
       heightContactsMaximized: "97%",
@@ -209,6 +218,7 @@ export const projects: Project[] = [
 export const social: Social[] = [
   {name: "Github", link: "https://github.com/LuciaSepulveda", logo: `${github}`},
   {name: "Email", link: "mailto:luciabsep18@gmail.com", logo: `${mail}`},
+  {name: "Icons", logo: `${creativity}`, link: ""},
 ]
 
 export const techs: string[] = [

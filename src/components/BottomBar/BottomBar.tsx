@@ -10,18 +10,19 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  Center,
   useColorMode,
 } from "@chakra-ui/react"
-import {MoonIcon, SunIcon, EditIcon, RepeatIcon} from "@chakra-ui/icons"
+import {MoonIcon, SunIcon, EditIcon, RepeatIcon, Icon} from "@chakra-ui/icons"
 import * as React from "react"
 import {useMediaQuery} from "react-responsive"
 import {motion, useMotionValue} from "framer-motion"
+import {BiPowerOff, BiUserCircle} from "react-icons/bi"
+import {SiWindows} from "react-icons/si"
 
-import {Program, Status} from "../../types/types"
-import {useCloseAllPrograms, useOpenProgram, useOs, useChangeStatus} from "../../context/hooks"
-import Icon from "../Icon/Icon"
+import {Program} from "../../types/types"
+import {useCloseAllPrograms, useOpenProgram, useOs, useChangeOs} from "../../context/hooks"
 import Clock from "../Clock/Clock"
+import IconBottomBar from "../Icon/Icon"
 
 interface Props {
   programs: Program[]
@@ -30,7 +31,6 @@ interface Props {
 const BottomBar: React.FC<Props> = ({programs}) => {
   const openProgram = useOpenProgram()
   const isPortrait = useMediaQuery({query: "(orientation: portrait)"})
-  const changeStatus = useChangeStatus()
   const closeAllPrograms = useCloseAllPrograms()
   const os = useOs()
   const bgBar = useColorModeValue(`${os.bottomBar.bgBar.light}`, `${os.bottomBar.bgBar.dark}`)
@@ -39,7 +39,7 @@ const BottomBar: React.FC<Props> = ({programs}) => {
     `${os.bottomBar.logoStart?.light}`,
     `${os.bottomBar.logoStart?.dark}`,
   )
-  const colorText = useColorModeValue("black", "white")
+  let colorText = useColorModeValue("rgb(24,24,24)", "rgb(250,250,250)")
   const bgMenuOpen = useColorModeValue(
     `${os.bottomBar.bgMenuOpen?.light}`,
     `${os.bottomBar.bgMenuOpen?.dark}`,
@@ -62,10 +62,11 @@ const BottomBar: React.FC<Props> = ({programs}) => {
     return elem
   }
 
-  const changeOs = () => {
-    os.name === ""
-    changeStatus(Status.loading)
+  if (os.name === "windowsXP") {
+    colorText = useColorModeValue("rgb(250,250,250)", "rgb(250,250,250)")
   }
+
+  const changeOs = useChangeOs()
 
   return (
     <>
@@ -90,7 +91,7 @@ const BottomBar: React.FC<Props> = ({programs}) => {
                   <>
                     {!isPortrait && (
                       <VStack key={elem.name} as="button" onClick={() => openProgram(elem)}>
-                        <Icon mouseX={mouseX} src={elem.img} />
+                        <IconBottomBar mouseX={mouseX} src={elem.img} />
                         {(elem.open === true || elem.minimized === true) && (
                           <Box
                             bg="#01afff"
@@ -133,7 +134,7 @@ const BottomBar: React.FC<Props> = ({programs}) => {
                   <>
                     {!isPortrait && (elem.open === true || elem.minimized === true) && (
                       <VStack key={elem.name} as="button" onClick={() => openProgram(elem)}>
-                        <Icon mouseX={mouseX} src={elem.img} />
+                        <IconBottomBar mouseX={mouseX} src={elem.img} />
                         {(elem.open === true || elem.minimized === true) && (
                           <Box
                             bg="#01afff"
@@ -197,11 +198,16 @@ const BottomBar: React.FC<Props> = ({programs}) => {
                 onClick={() => setMenuOpen(!menuOpen)}
               >
                 <HStack h="100%" w="100%">
-                  <Image h="30px" src={logo} />
+                  {os.name === "windows10" && (
+                    <Icon as={SiWindows} color={colorText} h={os.bottomBar.heightLogoStart} />
+                  )}
                   {os.name === "windowsXP" && (
-                    <Text color="white" fontSize="xl" fontWeight="bold">
-                      Start
-                    </Text>
+                    <>
+                      <Image h={os.bottomBar.heightLogoStart} src={logo} />
+                      <Text color="white" fontSize="xl" fontWeight="bold">
+                        Start
+                      </Text>
+                    </>
                   )}
                 </HStack>
               </MenuButton>
@@ -210,10 +216,12 @@ const BottomBar: React.FC<Props> = ({programs}) => {
                   backgroundImage: `${bgMenuOpen}`,
                   backgroundColor: `${bgMenuOpen}`,
                   border: `${os.bottomBar.border}`,
-                  marginBottom: "-6px",
+                  marginBottom: "-8px",
                   boxShadow: "1px 1px 1px 1px rgba(0, 0, 0, 0.2)",
                   position: "sticky",
                   zIndex: "inherit",
+                  backdropFilter: `${os.bottomBar.backdropFilter}`,
+                  borderRadius: `${os.bottomBar.borderRadiusMenuOpen}`,
                 }}
               >
                 <VStack h="550px" w={["355px", "450px"]}>
@@ -271,7 +279,7 @@ const BottomBar: React.FC<Props> = ({programs}) => {
                         <VStack bg="#D3E5FA" h="100%" w="50%" />
                       </HStack>
                       <Box h="50px" w="100%">
-                        <Box as="button" onClick={() => changeOs()}>
+                        <Box as="button" onClick={() => changeOs("")}>
                           <RepeatIcon />
                         </Box>
                       </Box>
@@ -279,27 +287,39 @@ const BottomBar: React.FC<Props> = ({programs}) => {
                   )}
                   {os.name === "windows10" && (
                     <HStack h="100%" spacing="0px" w="100%">
-                      <Flex alignItems="center" direction="column-reverse" h="100%" w="20%">
-                        <Center bg="white" borderRadius="50%" h="40px" mb="10px" w="40px">
-                          <Image h="32px" m="auto" src={programs[0].img} />
-                        </Center>
+                      <Flex
+                        alignItems="center"
+                        direction="column-reverse"
+                        h="100%"
+                        spacing="20px"
+                        w="11%"
+                      >
+                        <Box as="button" onClick={() => changeOs("")}>
+                          <Icon as={BiPowerOff} color={colorText} h="22px" mb="14px" w="22px" />
+                        </Box>
+                        <Icon as={BiUserCircle} color={colorText} h="22px" mb="16px" w="22px" />
                       </Flex>
                       <VStack h="100%" w="80%">
                         {programs.map((elem) => {
                           return (
                             <>
                               {!isPortrait && (
-                                <HStack
-                                  key={elem.name}
-                                  as="button"
-                                  w="100%"
-                                  onClick={() => {
-                                    openProgram(elem), setMenuOpen(false)
-                                  }}
-                                >
-                                  <Image h="35px" ml="5px" mt="5px" src={elem.img} />
-                                  <Text color={colorText}>{elem.name}</Text>
-                                </HStack>
+                                <VStack p={2} w="100%">
+                                  <Text align="left" color={colorText} ml="16px" w="100%">
+                                    {elem.name.charAt(0)}
+                                  </Text>
+                                  <HStack
+                                    key={elem.name}
+                                    as="button"
+                                    w="100%"
+                                    onClick={() => {
+                                      openProgram(elem), setMenuOpen(false)
+                                    }}
+                                  >
+                                    <Image h="26px" mt="5px" src={elem.img} />
+                                    <Text color={colorText}>{elem.name}</Text>
+                                  </HStack>
+                                </VStack>
                               )}
                               {isPortrait && (
                                 <HStack
@@ -385,9 +405,10 @@ const BottomBar: React.FC<Props> = ({programs}) => {
             })}
           </HStack>
           <HStack
-            bg={bgClock}
-            borderLeft="2px solid #0e0e3f7d"
+            bg={bgBar}
+            borderLeft={bgBar}
             color={colorText}
+            justify="space-evenly"
             p={2}
             w={os.bottomBar.widthClock}
           >

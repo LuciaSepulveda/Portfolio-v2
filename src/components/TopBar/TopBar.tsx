@@ -1,4 +1,4 @@
-import {Search2Icon, MoonIcon, SunIcon, EditIcon} from "@chakra-ui/icons"
+import {Search2Icon, MoonIcon, SunIcon, EditIcon, Icon} from "@chakra-ui/icons"
 import {
   Box,
   Grid,
@@ -19,8 +19,9 @@ import {
 } from "@chakra-ui/react"
 import * as React from "react"
 import {useMediaQuery} from "react-responsive"
+import {BiPowerOff} from "react-icons/bi"
 
-import {usePrograms, useOpenProgram, useCloseAllPrograms} from "../../context/hooks"
+import {usePrograms, useOpenProgram, useCloseAllPrograms, useChangeOs} from "../../context/hooks"
 import Clock from "../Clock"
 
 const TopBar: React.FC = () => {
@@ -30,6 +31,7 @@ const TopBar: React.FC = () => {
   const isPortrait = useMediaQuery({query: "(orientation: portrait)"})
   const {colorMode, toggleColorMode} = useColorMode()
   const closeAll = useCloseAllPrograms()
+  const changeOs = useChangeOs()
 
   const wallpaper = () => {
     let elem = programs[0]
@@ -145,6 +147,9 @@ const TopBar: React.FC = () => {
         <Box alignSelf="center" as="button" onClick={toggleColorMode}>
           {colorMode === "light" && <MoonIcon />}
           {colorMode !== "light" && <SunIcon />}
+        </Box>
+        <Box alignSelf="center" as="button" onClick={() => changeOs("")}>
+          <Icon as={BiPowerOff} />
         </Box>
       </HStack>
     </Flex>

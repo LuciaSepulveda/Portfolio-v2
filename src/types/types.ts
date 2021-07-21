@@ -43,6 +43,7 @@ export interface OS {
     bgMinButton: string
     bgMaxButton: string
     colorIconTopWindow: string
+    fontWeight?: string
   }
   bottomBar: {
     bgBar: {dark: string; light: string}
@@ -60,6 +61,8 @@ export interface OS {
     boxShadowProgramOpen?: string
     borderRadiusProgramOpen?: string
     widthClock?: string
+    heightLogoStart?: string
+    borderRadiusMenuOpen?: string
   }
   desktop: {
     height: string

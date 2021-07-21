@@ -62,7 +62,7 @@ const About: React.FC<Props> = ({h, w}) => {
       >
         <GridItem
           bg={bgLeft}
-          borderBottomLeftRadius="xl"
+          borderBottomLeftRadius={os.window.borderBottomWindow}
           colSpan={1}
           transitionTimingFunction="ease-in-out"
         >

@@ -70,9 +70,43 @@ const UserProvider: React.FC = ({children}) => {
   }
 
   const handleChangeOs = (os: string) => {
-    allOs.forEach((elem) => {
-      if (elem.name === os) setOs(elem)
-    })
+    if (os !== "") {
+      allOs.forEach((elem) => {
+        if (elem.name === os) setOs(elem)
+      })
+    } else {
+      setOs({
+        name: "",
+        img: "",
+        window: {
+          borderWindow: {dark: "", light: ""},
+          borderBottomWindow: "",
+          borderTopWindow: "",
+          bgTopWindow: {dark: "", light: ""},
+          bgBottomBar: {dark: "", light: ""},
+          bgWindow: {dark: "", light: ""},
+          borderButton: "",
+          borderRadiusButton: "",
+          bgCloseButton: "",
+          bgMinButton: "",
+          bgMaxButton: "",
+          colorIconTopWindow: "",
+        },
+        bottomBar: {
+          bgBar: {dark: "", light: ""},
+          height: "",
+        },
+        wallpapers: [],
+        desktop: {
+          height: "",
+          heightAboutMaximized: "",
+          heightProjectsMaximized: "",
+          heightContactsMaximized: "",
+          heightWallpapersMaximized: "",
+        },
+      })
+      setStatus(Status.initial)
+    }
   }
 
   const handleChangeWallpaper = (w: string) => {

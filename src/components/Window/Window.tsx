@@ -1,5 +1,7 @@
 import {Box, Center, Flex, HStack, Image, Text, useColorModeValue} from "@chakra-ui/react"
-import {ArrowUpDownIcon, CloseIcon, MinusIcon} from "@chakra-ui/icons"
+import {ArrowUpDownIcon, CloseIcon, MinusIcon, Icon} from "@chakra-ui/icons"
+import {VscChromeRestore, VscChromeMaximize} from "react-icons/vsc"
+import {FaRegWindowMaximize, FaRegWindowMinimize} from "react-icons/fa"
 import {useMediaQuery} from "react-responsive"
 import * as React from "react"
 import {motion} from "framer-motion"
@@ -27,7 +29,7 @@ const Window: React.FC<Props> = ({program, children}) => {
   const [closeButton, setCloseButton] = React.useState<number>(0)
   const [minButton, setMinButton] = React.useState<number>(0)
   const [maxButton, setMaxButton] = React.useState<number>(0)
-  const bgTop = useColorModeValue(`${os.window.bgTopWindow.light}`, `${os.window.bgTopWindow.dark}`)
+  let bgTop
   let colorText = useColorModeValue("#242424", "#FBFBFB")
   const border = useColorModeValue(
     `${os.window.borderWindow.light}`,
@@ -36,6 +38,12 @@ const Window: React.FC<Props> = ({program, children}) => {
 
   if (os.name === "windowsXP") {
     colorText = "#FBFBFB"
+  }
+
+  if (os.name === "windows10" && program.name === "User") {
+    bgTop = useColorModeValue("#E6F2F3", "#022131")
+  } else {
+    bgTop = useColorModeValue(`${os.window.bgTopWindow.light}`, `${os.window.bgTopWindow.dark}`)
   }
 
   return (
@@ -47,6 +55,7 @@ const Window: React.FC<Props> = ({program, children}) => {
           initial={{y: 500, scale: 0.2}}
         >
           <Box
+            backdropFilter={os.bottomBar.backdropFilter}
             bg={os.window.bgWindow}
             border={border}
             borderBottomRadius={os.window.borderBottomWindow}
@@ -149,11 +158,11 @@ const Window: React.FC<Props> = ({program, children}) => {
                 </motion.div>
                 <Center w="85%">
                   {program.name === "User" && (
-                    <Text color={colorText} fontWeight="bold">
+                    <Text color={colorText} fontWeight={os.window.fontWeight}>
                       {section} -
                     </Text>
                   )}
-                  <Text color={colorText} fontWeight="bold" ml="5px">
+                  <Text color={colorText} fontWeight={os.window.fontWeight} ml="5px">
                     {program.name}
                   </Text>
                 </Center>
@@ -161,6 +170,7 @@ const Window: React.FC<Props> = ({program, children}) => {
             )}
             {os.name !== "elementary" && (
               <Flex
+                backdropFilter={os.bottomBar.backdropFilter}
                 bg={bgTop}
                 borderTopRadius={os.window.borderTopWindow}
                 direction="row-reverse"
@@ -213,7 +223,12 @@ const Window: React.FC<Props> = ({program, children}) => {
                     w="24px"
                     onClick={() => maximized(program)}
                   >
-                    <ArrowUpDownIcon color={colorText} h="12px" w="12px" />
+                    {os.name === "windows10" && (
+                      <Icon as={VscChromeMaximize} color={colorText} h="19px" w="19px" />
+                    )}
+                    {os.name === "windowsXP" && (
+                      <Icon as={FaRegWindowMaximize} color={colorText} h="14px" w="14px" />
+                    )}
                   </Center>
                 </motion.div>
                 <motion.div
@@ -238,17 +253,17 @@ const Window: React.FC<Props> = ({program, children}) => {
                       minimized(program), close(program)
                     }}
                   >
-                    <MinusIcon color={colorText} h="12px" w="12px" />
+                    <Icon as={FaRegWindowMinimize} color={colorText} h="12px" w="12px" />
                   </Center>
                 </motion.div>
                 <HStack ml="10px" w="96%">
                   <Image h="20px" src={program.img} />
                   {program.name === "User" && (
-                    <Text color={colorText} fontWeight="bold">
+                    <Text color={colorText} fontWeight={os.window.fontWeight}>
                       {section} -
                     </Text>
                   )}
-                  <Text color={colorText} fontWeight="bold" ml="5px">
+                  <Text color={colorText} fontWeight={os.window.fontWeight} ml="5px">
                     {program.name}
                   </Text>
                 </HStack>
@@ -367,18 +382,24 @@ const Window: React.FC<Props> = ({program, children}) => {
                 </motion.div>
                 <Center w="95%">
                   {program.name === "User" && (
-                    <Text color={colorText} fontWeight="bold">
+                    <Text color={colorText} fontWeight={os.window.fontWeight}>
                       {section} -
                     </Text>
                   )}
-                  <Text color={colorText} fontWeight="bold" ml="5px">
+                  <Text color={colorText} fontWeight={os.window.fontWeight} ml="5px">
                     {program.name}
                   </Text>
                 </Center>
               </Flex>
             )}
             {os.name !== "elementary" && (
-              <Flex bg={bgTop} direction="row-reverse" h="30px" w="100%">
+              <Flex
+                backdropFilter={os.bottomBar.backdropFilter}
+                bg={bgTop}
+                direction="row-reverse"
+                h="30px"
+                w="100%"
+              >
                 <motion.div
                   style={{
                     height: "24px",
@@ -425,7 +446,12 @@ const Window: React.FC<Props> = ({program, children}) => {
                     w="24px"
                     onClick={() => maximized(program)}
                   >
-                    <ArrowUpDownIcon color={colorText} h="12px" w="12px" />
+                    {os.name === "windows10" && (
+                      <Icon as={VscChromeMaximize} color={colorText} h="19px" w="19px" />
+                    )}
+                    {os.name === "windowsXP" && (
+                      <Icon as={FaRegWindowMaximize} color={colorText} h="14px" w="14px" />
+                    )}
                   </Center>
                 </motion.div>
                 <motion.div
@@ -456,11 +482,11 @@ const Window: React.FC<Props> = ({program, children}) => {
                 <HStack ml="10px" w="96%">
                   <Image h="20px" src={program.img} />
                   {program.name === "User" && (
-                    <Text color={colorText} fontWeight="bold">
+                    <Text color={colorText} fontWeight={os.window.fontWeight}>
                       {section} -
                     </Text>
                   )}
-                  <Text color={colorText} fontWeight="bold" ml="5px">
+                  <Text color={colorText} fontWeight={os.window.fontWeight} ml="5px">
                     {program.name}
                   </Text>
                 </HStack>
@@ -576,11 +602,11 @@ const Window: React.FC<Props> = ({program, children}) => {
                 </motion.div>
                 <Center w="85%">
                   {program.name === "User" && (
-                    <Text color={colorText} fontWeight="bold">
+                    <Text color={colorText} fontWeight={os.window.fontWeight}>
                       {section} -
                     </Text>
                   )}
-                  <Text color={colorText} fontWeight="bold" ml="5px">
+                  <Text color={colorText} fontWeight={os.window.fontWeight} ml="5px">
                     {program.name}
                   </Text>
                 </Center>
@@ -671,11 +697,11 @@ const Window: React.FC<Props> = ({program, children}) => {
                 <HStack ml="10px" w="96%">
                   <Image h="20px" src={program.img} />
                   {program.name === "User" && (
-                    <Text color={colorText} fontWeight="bold">
+                    <Text color={colorText} fontWeight={os.window.fontWeight}>
                       {section} -
                     </Text>
                   )}
-                  <Text color={colorText} fontWeight="bold" ml="5px">
+                  <Text color={colorText} fontWeight={os.window.fontWeight} ml="5px">
                     {program.name}
                   </Text>
                 </HStack>
